@@ -18,7 +18,7 @@
 using namespace Robot;
 
 
-LinuxCM730::LinuxCM730(const char* name)
+LinuxCM730::LinuxCM730(const char* name)    //构造函数，在类调用时执行，设置端口
 {
 	DEBUG_PRINT = false;
 	m_Socket_fd = -1;
@@ -35,18 +35,18 @@ LinuxCM730::LinuxCM730(const char* name)
 	SetPortName(name);
 }
 
-LinuxCM730::~LinuxCM730()
+LinuxCM730::~LinuxCM730()                       //折构函数，在类释放的时候执行，关闭端口              
 {
 	ClosePort();
 }
 
-void LinuxCM730::SetPortName(const char* name)
+void LinuxCM730::SetPortName(const char* name)  //设置端口名
 {
 	strcpy(m_PortName, name);
 }
 
-bool LinuxCM730::OpenPort()
-{
+bool LinuxCM730::OpenPort()                     //打开串口
+{  
 	struct termios newtio;
     struct serial_struct serinfo;
 	double baudrate = 1000000.0; //bps (1Mbps)
@@ -56,8 +56,8 @@ bool LinuxCM730::OpenPort()
 	if(DEBUG_PRINT == true)
 		printf("\n%s open ", m_PortName);
 	
-    if((m_Socket_fd = open(m_PortName, O_RDWR|O_NOCTTY|O_NONBLOCK)) < 0)
-        goto UART_OPEN_ERROR;
+    if((m_Socket_fd = open(m_PortName, O_RDWR|O_NOCTTY|O_NONBLOCK)) < 0) //socket 通信端口设置，暂不明？？
+        goto UART_OPEN_ERROR;   //串口打开错误，goto语句
 
 	if(DEBUG_PRINT == true)
 		printf("success!\n");
